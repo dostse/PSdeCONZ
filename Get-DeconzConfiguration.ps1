@@ -1,12 +1,10 @@
 function Get-DeconzConfiguration{
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact='Medium')]
+    [CmdletBinding()]
     param(
     [Parameter(Mandatory=$true)]
     [string]$URI,
     [Parameter(Mandatory=$true)]
-    [string]$APIKey,
-    [Parameter(Mandatory=$false)]
-    [switch]$Force 
+    [string]$APIKey
     )
        
     $FullURI = "$URI/$APIKey/"
