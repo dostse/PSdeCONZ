@@ -68,12 +68,16 @@ function Set-DeconzIKEALightColor{
             if ($Force -or $PSCmdlet.ShouldProcess($LightName,"Changing Color to $Color.")){
                 
                 $LightURI = "$FullURI/lights/$($Light.Value.uniqueid)/state"
+                
                 $Result = Invoke-RestMethod -Uri $LightURI -Method Put -Body ($Actions | ConvertTo-Json) -ContentType 'application/json'
 
                 if($PSBoundParameters.ContainsKey('Brightness')){
+
                     # Sleep - If you change the xy and brightness directly after eachother the bri does not take.
                     Start-Sleep -Seconds 1
+
                     $Actions = @{'bri' = $Brightness}
+
                     $Result = Invoke-RestMethod -Uri $LightURI -Method Put -Body ($Actions | ConvertTo-Json) -ContentType 'application/json'
                 }
             }

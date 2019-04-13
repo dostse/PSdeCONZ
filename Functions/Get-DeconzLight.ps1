@@ -22,9 +22,7 @@ function Get-DeconzLight{
             $Lights = ((Invoke-WebRequest -Uri "$($FullURI)lights").content | ConvertFrom-Json | Sort-Object).psobject.properties
         }  
 
-
         foreach($Light in $Lights){
-
     
             $Properties = [ordered]@{'Name' = $Light.Value.name
                                      'Manufacturer' = $Light.Value.manufacturername

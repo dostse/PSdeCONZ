@@ -27,7 +27,9 @@ function Set-DeconzLightBrightness{
             if ($Force -or $PSCmdlet.ShouldProcess($LightName,"Changing Color to $Color.")){
                 
                 $LightURI = "$FullURI/lights/$($Light.Value.uniqueid)/state"
+
                 $Actions = @{'bri' = $Brightness}
+                
                 $Result = Invoke-RestMethod -Uri $LightURI -Method Put -Body ($Actions | ConvertTo-Json) -ContentType 'application/json'
                 
             }

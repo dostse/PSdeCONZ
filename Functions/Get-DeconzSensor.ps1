@@ -22,7 +22,6 @@ function Get-DeconzSensor{
             $Sensors = ((Invoke-WebRequest -Uri "$($FullURI)sensors").content | ConvertFrom-Json | Sort-Object).psobject.properties
         }  
 
-
         foreach($Sensor in $Sensors){
 
             $Group = ((Invoke-WebRequest -Uri "$($FullURI)groups/$($Sensor.Value.config.group)").content | ConvertFrom-Json).Name
