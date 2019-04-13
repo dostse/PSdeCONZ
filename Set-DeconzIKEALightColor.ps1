@@ -1,5 +1,5 @@
 function Set-DeconzIKEALightColor{
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact='Medium')]
     param(
     [Parameter(Mandatory=$true)]
     [string]$URI,
