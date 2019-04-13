@@ -27,7 +27,7 @@ function Get-DeconzLight{
 
     
             $Properties = [ordered]@{'Name' = $Light.Value.name
-                                     'Manufacurer' = $Light.Value.manufacturername
+                                     'Manufacturer' = $Light.Value.manufacturername
                                      'ModelID' = $Light.Value.modelid
                                      'UniqueID' = $Light.Value.uniqueid
                                      'Type' = $Light.Value.type
