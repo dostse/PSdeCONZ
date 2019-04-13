@@ -17,15 +17,8 @@ function Set-DeconzIKEALightColor{
     
         $FullURI = "$URI/$APIKey/"
         
-    }
-    PROCESS{
-        
-        
-        $Light = ((Invoke-WebRequest -Uri "$($FullURI)lights").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$LightName"}
-
-
-        Switch ( $Color )
-        {
+        Switch ( $Color ) {
+            
             'Blue' { 
                     $Actions = @{'xy' = 0.135988,0.0399939}
         
@@ -55,6 +48,11 @@ function Set-DeconzIKEALightColor{
                     $Actions = @{'xy' = 0.45986,0.41060}
                    }
         }
+    }
+    PROCESS{
+       
+        $Light = ((Invoke-WebRequest -Uri "$($FullURI)lights").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$LightName"}
+       
         try{
             if($Light.Value.Type -ne 'Color Light' -and $Light.Value.Manufacturer -ne 'IKEA of Sweden'){
                 throw 'Light is not and IKEA CWS Light.'
@@ -63,7 +61,6 @@ function Set-DeconzIKEALightColor{
                 
                 $LightURI = "$FullURI/lights/$($Light.Value.uniqueid)/state"
                 $Result = Invoke-RestMethod -Uri $LightURI -Method Put -Body ($Actions | ConvertTo-Json) -ContentType 'application/json'
-               
 
                 if($PSBoundParameters.ContainsKey('Brightness')){
                     # Sleep - If you change the xy and brightness directly after eachother the bri does not take.
