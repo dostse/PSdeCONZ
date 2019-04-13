@@ -28,7 +28,7 @@ function Get-DeconzSensor{
             $Group = ((Invoke-WebRequest -Uri "$($FullURI)groups/$($Sensor.Value.config.group)").content | ConvertFrom-Json).Name
     
             $Properties = [ordered]@{'Name' = $Sensor.Value.name
-                                     'Manufacurer' = $Sensor.Value.manufacturername
+                                     'Manufacturer' = $Sensor.Value.manufacturername
                                      'ModelID' = $Sensor.Value.modelid
                                      'UniqueID' = $Sensor.Value.uniqueid
                                      'Type' = $Sensor.Value.type
