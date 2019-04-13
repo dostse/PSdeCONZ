@@ -8,7 +8,7 @@ function Set-DeconzIKEALightColor{
     [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
     [string[]]$LightName,
     [Parameter(Mandatory=$true)]
-    [ValidateSet('Blue','Pink','Red','Orange','Yellow', 'Green','ColdWhite', 'WarmWhite')]
+    [ValidateSet('Blue','Green','Orange','Polar','Pink','Plum','Purple','Red','White','WhiteWarm','WhiteCold','Yellow')]
     [string]$Color,
     [Parameter(Mandatory=$false)]
     [Int][ValidateRange(1,254)]$Brightness
@@ -21,31 +21,39 @@ function Set-DeconzIKEALightColor{
             
             'Blue' { 
                     $Actions = @{'xy' = 0.135988,0.0399939}
-        
                    }
-            'Pink' { 
-                    $Actions = @{'xy' = 0.384985,0.154986}
-                   }
-            'Red' { 
-                    $Actions = @{'xy' = 0.700999,0.298985}
-        
+            'Green' { 
+                    $Actions = @{'xy' = 0.3760,0.5220}
                    }
             'Orange' { 
                     $Actions = @{'xy' = 0.611994,0.373999}
                    }
+            'Polar' { 
+                    $Actions = @{'xy' = 0.2952,0.3207}
+                   }
+            'Pink' { 
+                    $Actions = @{'xy' = 0.384985,0.154986}
+                   }
+            'Plum' { 
+                    $Actions = @{'xy' = 0.3352,0.1837}
+                   }
+            'Purple' { 
+                    $Actions = @{'xy' = 0.2253,0.1713}
+                   }
+            'Red' { 
+                    $Actions = @{'xy' = 0.700999,0.298985}
+                   }
+            'White' { 
+                    $Actions = @{'xy' = 0.3544,0.3746}
+                   }
+            'WhiteWarm' { 
+                    $Actions = @{'xy' = 0.4021,0.4273}
+                   }
+            'WhiteCold' { 
+                    $Actions = @{'xy' = 0.3119,0.3329}
+                   }
             'Yellow' { 
                     $Actions = @{'xy' = 0.443992,0.516991}
-        
-                   }
-            'Green' { 
-                    $Actions = @{'xy' = 0.172,0.74699}
-                   }
-            'ColdWhite' { 
-                    $Actions = @{'xy' = 0.34510,0.35811}
-        
-                   }
-            'WarmWhite' { 
-                    $Actions = @{'xy' = 0.45986,0.41060}
                    }
         }
     }
