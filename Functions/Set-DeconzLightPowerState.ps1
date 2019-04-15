@@ -13,7 +13,7 @@ function Set-DeconzLightPowerState{
     )
     BEGIN{
     
-        $FullURI = "$URI/$APIKey/"
+        $FullURI = "$URI/$APIKey"
 
         Switch ( $State )
         {
@@ -24,7 +24,7 @@ function Set-DeconzLightPowerState{
     }
     PROCESS{
         
-        $Light = ((Invoke-WebRequest -Uri "$($FullURI)lights").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$LightName"}
+        $Light = ((Invoke-WebRequest -Uri "$($FullURI)/lights").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$LightName"}
 
         try{
             if ($Force -or $PSCmdlet.ShouldProcess($LightName,"Changing PowerState to $State.")){
@@ -33,7 +33,7 @@ function Set-DeconzLightPowerState{
 
                 $LightURI = "$FullURI/lights/$($Light.Value.uniqueid)/state"
                 
-                $Result = Invoke-RestMethod -Uri $LightURI -Method Put -Body ($Actions | ConvertTo-Json) -ContentType 'application/json'
+                Invoke-RestMethod -Uri $LightURI -Method Put -Body ($Actions | ConvertTo-Json) -ContentType 'application/json' | Out-Null
             }
         }
         catch{
@@ -42,5 +42,3 @@ function Set-DeconzLightPowerState{
     }
     END{}
 }
-
-

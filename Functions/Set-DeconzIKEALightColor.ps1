@@ -15,7 +15,7 @@ function Set-DeconzIKEALightColor{
     )
     BEGIN{
     
-        $FullURI = "$URI/$APIKey/"
+        $FullURI = "$URI/$APIKey"
         
         Switch ( $Color ) {
             
@@ -59,17 +59,25 @@ function Set-DeconzIKEALightColor{
     }
     PROCESS{
        
-        $Light = ((Invoke-WebRequest -Uri "$($FullURI)lights").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$LightName"}
+        $Light = ((Invoke-WebRequest -Uri "$($FullURI)/lights").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$LightName"}
        
         try{
             if($Light.Value.Type -ne 'Color Light' -and $Light.Value.Manufacturer -ne 'IKEA of Sweden'){
                 throw 'Light is not and IKEA CWS Light.'
             }
             if ($Force -or $PSCmdlet.ShouldProcess($LightName,"Changing Color to $Color.")){
-                
+
                 $LightURI = "$FullURI/lights/$($Light.Value.uniqueid)/state"
                 
-                $Result = Invoke-RestMethod -Uri $LightURI -Method Put -Body ($Actions | ConvertTo-Json) -ContentType 'application/json'
+                if($Light.Value.State.On -eq $false){
+
+                    $PowerOn = @{'on' = $true}
+                    Invoke-RestMethod -Uri $LightURI -Method Put -Body ($PowerOn | ConvertTo-Json) -ContentType 'application/json' | Out-Null
+                    Start-Sleep -Seconds 1
+
+                }
+
+                Invoke-RestMethod -Uri $LightURI -Method Put -Body ($Actions | ConvertTo-Json) -ContentType 'application/json' | Out-Null
 
                 if($PSBoundParameters.ContainsKey('Brightness')){
 

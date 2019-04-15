@@ -10,21 +10,21 @@ function Get-DeconzSensor{
     )
     BEGIN{
             
-        $FullURI = "$URI/$APIKey/"
+        $FullURI = "$URI/$APIKey"
 
     }
     PROCESS{
 
         if($PSBoundParameters.ContainsKey('SensorName')){
-            $Sensors = ((Invoke-WebRequest -Uri "$($FullURI)sensors").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$SensorName"}
+            $Sensors = ((Invoke-WebRequest -Uri "$($FullURI)/sensors").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$SensorName"}
             }
         else{
-            $Sensors = ((Invoke-WebRequest -Uri "$($FullURI)sensors").content | ConvertFrom-Json | Sort-Object).psobject.properties
+            $Sensors = ((Invoke-WebRequest -Uri "$($FullURI)/sensors").content | ConvertFrom-Json | Sort-Object).psobject.properties
         }  
 
         foreach($Sensor in $Sensors){
 
-            $Group = ((Invoke-WebRequest -Uri "$($FullURI)groups/$($Sensor.Value.config.group)").content | ConvertFrom-Json).Name
+            $Group = ((Invoke-WebRequest -Uri "$($FullURI)/groups/$($Sensor.Value.config.group)").content | ConvertFrom-Json).Name
     
             $Properties = [ordered]@{'Name' = $Sensor.Value.name
                                      'Manufacturer' = $Sensor.Value.manufacturername
@@ -39,7 +39,7 @@ function Get-DeconzSensor{
                                      'LastUpdated' = $Sensor.Value.state.lastupdated
                                      'Config' = $Sensor.Value.config
                                      'State' = $Sensor.Value.state
-            }
+                                    }
 
             $obj = New-Object -TypeName psobject -Property $Properties
             Write-Output $obj

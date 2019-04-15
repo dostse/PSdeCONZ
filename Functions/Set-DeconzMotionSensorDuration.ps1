@@ -14,20 +14,20 @@ function Set-DeconzMotionSensorDuration{
     )
     BEGIN{
         
-        $FullURI = "$URI/$APIKey/"
+        $FullURI = "$URI/$APIKey"
 
     }
     PROCESS{
 
         try{
-            $Sensor = ((Invoke-WebRequest -Uri "$($FullURI)sensors").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$SensorName"}
+            $Sensor = ((Invoke-WebRequest -Uri "$($FullURI)/sensors").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$SensorName"}
             if ($Force -or $PSCmdlet.ShouldProcess($SensorName,"Changing Duration to $Duration seconds.")){
                 
-                $SensorConfigURI = "$($FullURI)sensors/$($Sensor.Value.uniqueid)/config"
+                $SensorConfigURI = "$($FullURI)/sensors/$($Sensor.Value.uniqueid)/config"
                 
                 $Config = @{'duration'=$Duration}
                
-                $Result = Invoke-RestMethod -Uri $SensorConfigURI -Method Put -Body ($Config | ConvertTo-Json) -ContentType 'application/json'
+                Invoke-RestMethod -Uri $SensorConfigURI -Method Put -Body ($Config | ConvertTo-Json) -ContentType 'application/json' | Out-Null
 
             }
         }

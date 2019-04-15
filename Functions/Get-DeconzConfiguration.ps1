@@ -7,11 +7,8 @@ function Get-DeconzConfiguration{
     [string]$APIKey
     )
        
-    $FullURI = "$URI/$APIKey/"
+    $FullURI = "$URI/$APIKey"
     
-    $Configuration = (Invoke-WebRequest -Uri "$($FullURI)config").content | ConvertFrom-Json | Sort-Object
-
-    $Configuration
-
+    (Invoke-WebRequest -Uri "$($FullURI)/config").content | ConvertFrom-Json | Sort-Object
 
 }

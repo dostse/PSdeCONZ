@@ -10,16 +10,16 @@ function Get-DeconzLight{
     )
     BEGIN{
     
-        $FullURI = "$URI/$APIKey/"
+        $FullURI = "$URI/$APIKey"
     
     }
     PROCESS{
 
         if($PSBoundParameters.ContainsKey('LightName')){
-            $Lights = ((Invoke-WebRequest -Uri "$($FullURI)lights").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$LightName"}
+            $Lights = ((Invoke-WebRequest -Uri "$($FullURI)/lights").content | ConvertFrom-Json).psobject.properties | Where-Object {$_.value.Name -eq "$LightName"}
             }
         else{
-            $Lights = ((Invoke-WebRequest -Uri "$($FullURI)lights").content | ConvertFrom-Json | Sort-Object).psobject.properties
+            $Lights = ((Invoke-WebRequest -Uri "$($FullURI)/lights").content | ConvertFrom-Json | Sort-Object).psobject.properties
         }  
 
         foreach($Light in $Lights){

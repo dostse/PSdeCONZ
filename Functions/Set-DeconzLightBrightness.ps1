@@ -30,7 +30,7 @@ function Set-DeconzLightBrightness{
 
                 $Actions = @{'bri' = $Brightness}
                 
-                $Result = Invoke-RestMethod -Uri $LightURI -Method Put -Body ($Actions | ConvertTo-Json) -ContentType 'application/json'
+                Invoke-RestMethod -Uri $LightURI -Method Put -Body ($Actions | ConvertTo-Json) -ContentType 'application/json' | Out-Null
                 
             }
         }
