@@ -16,7 +16,7 @@ function Invoke-DeconzDeviceAdd{
 
         $FullURI = "$URI/$APIKey/$($Type.ToLower())"
 
-        $Result = Invoke-RestMethod -Uri $FullURI -Method Post -Body $Header -ContentType 'application/json' 
+        $Result = Invoke-RestMethod -Uri $FullURI -Method Post 
         
         $Result
 

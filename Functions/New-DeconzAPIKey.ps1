@@ -9,8 +9,8 @@ function New-DeconzAPIKey{
        
     Try{
 
-        $Header = @{'devicetype' = $DeviceType} | ConvertTo-Json
-        $Result = Invoke-RestMethod -Uri $URI -Method Post -Body $Header -ContentType 'application/json' 
+        $Body = @{'devicetype' = $DeviceType} | ConvertTo-Json
+        $Result = Invoke-RestMethod -Uri $URI -Method Post -Body $Body -ContentType 'application/json' 
         
         If($null -ne $Result.Success.Username){
 
